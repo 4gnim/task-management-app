@@ -46,10 +46,10 @@ class TodoTile extends StatelessWidget {
                       height: 80,
                       width: 5,
                       decoration: BoxDecoration(
+                        color: color ?? AppConst.kRed,
                         borderRadius:
                             BorderRadius.all(Radius.circular(AppConst.kRadius)),
                       ),
-                      color: color ?? AppConst.kRed,
                     ),
                     SizedBox(width: 15.w),
                     Padding(
@@ -100,6 +100,9 @@ class TodoTile extends StatelessWidget {
                                       onTap: delete,
                                       child: const Icon(
                                           MaterialCommunityIcons.delete_circle),
+                                    ),
+                                    Container(
+                                      child: Text('halo'),
                                     )
                                   ],
                                 ),
@@ -111,7 +114,7 @@ class TodoTile extends StatelessWidget {
                     )
                   ],
                 ),
-                Container()
+                Container(child: switcher),
               ],
             ),
           )

@@ -9,8 +9,8 @@ class DbHelper {
       "id INTEGER PRIMARY KEY AUTOINCREMENT, "
       "title STRING, desc TEXT, date STRING, "
       "startTime STRING, endTime STRING, "
-      "remid INTEGER, repeat STRING, "
-      "isCompleted INTEGER",
+      "remind INTEGER, repeat STRING, "
+      "isCompleted INTEGER)",
     );
 
     await database.execute(

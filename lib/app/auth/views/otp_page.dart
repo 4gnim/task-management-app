@@ -27,11 +27,11 @@ class OtpPage extends StatelessWidget {
                 width: AppConst.kWidth * 0.5,
               ),
             ),
-            const SizedBox(height: 26),
+            SizedBox(height: 26.h),
             ReusableText(
                 text: 'Enter your otp code',
                 style: appstyle(18, AppConst.kLight, FontWeight.bold)),
-            const SizedBox(height: 26),
+            SizedBox(height: 26.h),
             Pinput(
               length: 6,
               showCursor: true,

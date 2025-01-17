@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_management/app/todo/controllers/dates/dates_provider.dart';
 import 'package:task_management/app/todo/controllers/todo/todo_provider.dart';
-import 'package:task_management/common/models/task_model.dart';
 import 'package:task_management/common/utils/constants.dart';
 import 'package:task_management/common/widgets/app_style.dart';
 import 'package:task_management/common/widgets/custom_otln_btn.dart';
@@ -11,16 +10,18 @@ import 'package:task_management/common/widgets/custom_text_field.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
     as picker;
 
-class AddTaskPage extends ConsumerStatefulWidget {
-  const AddTaskPage({super.key});
+class UpdateTaskPage extends ConsumerStatefulWidget {
+  const UpdateTaskPage({super.key, required this.id});
+
+  final int id;
 
   @override
-  ConsumerState<AddTaskPage> createState() => _AddTaskPageState();
+  ConsumerState<UpdateTaskPage> createState() => _UpdateTaskPageState();
 }
 
-class _AddTaskPageState extends ConsumerState<AddTaskPage> {
-  final TextEditingController title = TextEditingController();
-  final TextEditingController desc = TextEditingController();
+class _UpdateTaskPageState extends ConsumerState<UpdateTaskPage> {
+  final TextEditingController title = TextEditingController(text: titles);
+  final TextEditingController desc = TextEditingController(text: descs);
 
   @override
   Widget build(BuildContext context) {
@@ -124,17 +125,14 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
                       scheduleDate.isNotEmpty &&
                       start.isNotEmpty &&
                       finish.isNotEmpty) {
-                    TaskModel task = TaskModel(
-                      title: title.text,
-                      desc: desc.text,
-                      isCompleted: 0,
-                      date: scheduleDate,
-                      startTime: start.substring(10, 16),
-                      endTime: finish.substring(10, 16),
-                      remind: 0,
-                      repeat: 'yes',
-                    );
-                    ref.read(todoStateProvider.notifier).addItem(task);
+                    ref.read(todoStateProvider.notifier).updateItem(
+                        widget.id,
+                        title.text,
+                        desc.text,
+                        0,
+                        scheduleDate,
+                        start.substring(10, 16),
+                        finish.substring(10, 16));
 
                     ref.read(finishTimeStateProvider.notifier).setFinish('');
 
@@ -143,9 +141,7 @@ class _AddTaskPageState extends ConsumerState<AddTaskPage> {
                     ref.read(dateStateProvider.notifier).setDate('');
 
                     Navigator.pop(context);
-                  } else {
-                    print('failed bang failed');
-                  }
+                  } else {}
                 },
                 width: AppConst.kWidth,
                 height: 52.h,

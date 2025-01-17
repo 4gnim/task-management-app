@@ -3,16 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_management/app/todo/controllers/todo/todo_provider.dart';
-import 'package:task_management/app/todo/controllers/xpansion_provider.dart';
 import 'package:task_management/app/todo/views/add_task_page.dart';
+import 'package:task_management/app/todo/widgets/completed_task.dart';
+import 'package:task_management/app/todo/widgets/day_after_tomorrow.dart';
 import 'package:task_management/app/todo/widgets/today_task.dart';
-import 'package:task_management/app/todo/widgets/todo_tile.dart';
-import 'package:task_management/common/models/task_model.dart';
+import 'package:task_management/app/todo/widgets/tomorrow_list.dart';
 import 'package:task_management/common/utils/constants.dart';
 import 'package:task_management/common/widgets/app_style.dart';
 import 'package:task_management/common/widgets/custom_text_field.dart';
 import 'package:task_management/common/widgets/reusable_text.dart';
-import 'package:task_management/common/widgets/xpansion_tile.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -88,7 +87,7 @@ class _HomePageState extends ConsumerState<HomePage>
                   color: AppConst.kGreyLight,
                 ),
               ),
-              SizedBox(height: 15.w),
+              SizedBox(height: 15.h),
             ],
           ),
         ),
@@ -179,67 +178,16 @@ class _HomePageState extends ConsumerState<HomePage>
                     Container(
                       color: AppConst.kBkLight,
                       height: AppConst.kHeight * 0.3,
+                      child: const CompletedTask(),
                     ),
                   ],
                 ),
               ),
             ),
             SizedBox(height: 20.h),
-            XpansionTile(
-                text: "Tomorrow's Task",
-                text2: "Tomorrow's tasks are shown here",
-                onExpansionChanged: (bool expanded) {
-                  ref.read(xpansionStateProvider.notifier).setStart(!expanded);
-                },
-                trailing: Padding(
-                  padding: EdgeInsets.only(right: 12.0.w),
-                  child: ref.watch(xpansionStateProvider)
-                      ? const Icon(
-                          AntDesign.circledown,
-                          color: AppConst.kLight,
-                        )
-                      : const Icon(
-                          AntDesign.closecircleo,
-                          color: AppConst.kBlueLight,
-                        ),
-                ),
-                children: [
-                  TodoTile(
-                    start: '03:00',
-                    end: '05:00',
-                    switcher: Switch(value: true, onChanged: (value) {}),
-                  ),
-                ]),
-            XpansionTile(
-              text: DateTime.now()
-                  .add(const Duration(days: 2))
-                  .toString()
-                  .substring(5, 10),
-              text2: "Day After tomorrow tasks",
-              onExpansionChanged: (bool expanded) {
-                ref.read(xpansionState0Provider.notifier).setStart(!expanded);
-              },
-              trailing: Padding(
-                padding: EdgeInsets.only(right: 12.0.w),
-                child: ref.watch(xpansionState0Provider)
-                    ? const Icon(
-                        AntDesign.circledown,
-                        color: AppConst.kLight,
-                      )
-                    : const Icon(
-                        AntDesign.closecircleo,
-                        color: AppConst.kBlueLight,
-                      ),
-              ),
-              children: [
-                TodoTile(
-                  start: '03:00',
-                  end: '05:00',
-                  switcher: Switch(value: true, onChanged: (value) {}),
-                ),
-              ],
-            ),
+            const TomorrowList(),
             SizedBox(height: 20.h),
+            const DayAfterTomorrow(),
           ],
         ),
       )),
